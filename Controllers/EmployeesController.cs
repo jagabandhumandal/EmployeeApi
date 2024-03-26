@@ -52,7 +52,7 @@ namespace EmployeeApi.Controllers
         // PUT: api/Employees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, [FromBody] Employee employee)
+        public async Task<ActionResult<Employee>> PutEmployee(int id, [FromBody] Employee employee)
         {
             if (id != employee.empid)
             {
@@ -63,6 +63,7 @@ namespace EmployeeApi.Controllers
 
             try
             {
+               
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -76,8 +77,9 @@ namespace EmployeeApi.Controllers
                     throw;
                 }
             }
+            var employeeData = await _context.Employees.FindAsync(id);
 
-            return NoContent();
+            return employeeData;
         }
 
         // POST: api/Employees
@@ -92,8 +94,8 @@ namespace EmployeeApi.Controllers
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
 
-          // return CreatedAtAction("GetEmployee", new { id = employee.empid }, employee);
-          return NoContent();
+          return CreatedAtAction("GetEmployee", new { id = employee.empid }, employee);
+          //return NoContent();
         }
 
         // DELETE: api/Employees/5
