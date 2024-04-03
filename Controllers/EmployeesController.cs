@@ -95,7 +95,6 @@ namespace EmployeeApi.Controllers
             await _context.SaveChangesAsync();
 
           return CreatedAtAction("GetEmployee", new { id = employee.empid }, employee);
-          //return NoContent();
         }
 
         // DELETE: api/Employees/5
